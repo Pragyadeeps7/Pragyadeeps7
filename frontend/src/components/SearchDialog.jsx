@@ -1,36 +1,47 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { X, Search } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
-import { PRODUCTS, formatPrice } from "../mock";
+import { formatPrice } from "../mock";
+import { getProducts } from "../api/client";
 
 const SearchDialog = () => {
   const { searchOpen, setSearchOpen } = useCart();
   const [q, setQ] = useState("");
-  if (!searchOpen) return null;
+  const [results, setResults] = useState([]);
 
-  const results = q.trim().length > 1
-    ? PRODUCTS.filter(p => p.name.toLowerCase().includes(q.toLowerCase()) || p.category.includes(q.toLowerCase())).slice(0, 8)
-    : [];
+  useEffect(() => {
+    if (!searchOpen) { setQ(""); setResults([]); }
+  }, [searchOpen]);
+
+  useEffect(() => {
+    if (q.trim().length <= 1) { setResults([]); return; }
+    const t = setTimeout(() => {
+      getProducts({ q: q.trim(), limit: 8 }).then(d => setResults(d.items || [])).catch(() => setResults([]));
+    }, 250);
+    return () => clearTimeout(t);
+  }, [q]);
+
+  if (!searchOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50" onClick={() => setSearchOpen(false)}>
       <div className="absolute inset-0 bg-black/50" />
-      <div onClick={e => e.stopPropagation()} className="absolute top-0 left-0 right-0 bg-[#FAFAF7] scale-in">
+      <div onClick={e => e.stopPropagation()} className="absolute top-0 left-0 right-0 bg-[#FAFAF7] scale-in max-h-[100vh] overflow-y-auto">
         <div className="max-w-[900px] mx-auto px-6 py-8">
           <div className="flex items-center gap-4 border-b pb-4" style={{ borderColor: "#1A1A1A" }}>
             <Search className="w-5 h-5" />
             <input autoFocus value={q} onChange={(e) => setQ(e.target.value)}
               placeholder="Search for vases, candles, dinnerware..."
-              className="flex-1 bg-transparent outline-none font-serif-display text-[22px] placeholder:text-[#B5B0A2]" />
+              className="flex-1 bg-transparent outline-none font-serif-display text-[18px] md:text-[22px] placeholder:text-[#B5B0A2]" />
             <button onClick={() => setSearchOpen(false)}><X className="w-5 h-5" /></button>
           </div>
           <div className="py-6">
             {q.length <= 1 && (
               <div>
-                <p className="text-[12px] tracking-[0.3em] mb-4" style={{ color: "#B89778" }}>POPULAR SEARCHES</p>
+                <p className="text-[11px] md:text-[12px] tracking-[0.3em] mb-4" style={{ color: "#B89778" }}>POPULAR SEARCHES</p>
                 <div className="flex flex-wrap gap-2">
-                  {["Vases", "Candles", "Dinner Sets", "Trays", "Cushions", "Lamps", "Gift Boxes"].map(t => (
+                  {["Vase", "Candle", "Plate", "Tray", "Cushion", "Lamp", "Mug"].map(t => (
                     <button key={t} onClick={() => setQ(t)}
                       className="text-[13px] px-4 py-2 border hover:border-[#D4A574] hover:text-[#B89778] transition-colors" style={{ borderColor: "#E8E2D5" }}>
                       {t}

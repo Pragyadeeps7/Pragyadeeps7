@@ -101,3 +101,125 @@
 #====================================================================================================
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
+user_problem_statement: |
+  Build a luxury home decor e-commerce website that replicates the layout/structure of
+  saukriti-website-clone--saarhomes1008.replit.app with the design theme of nestasia.in.
+  Fully functional shopping experience with product browsing, filtering, cart, wishlist,
+  search, checkout, and newsletter signup.
+
+backend:
+  - task: "GET /api/products with filters (category, tag, sort, price range, search)"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Seeded 128 products into MongoDB. Supports category/tag/q/min_price/max_price/sort/limit/skip params."
+      - working: true
+        agent: "testing"
+        comment: "✅ All filter tests passed: no params (128 products), category=decor (40 items), tag=new (48 items), sort=low/high/rating (correct ordering), price range 1000-3000 (13 items), search q=vase (6 items), pagination limit=5&skip=10 (5 items). All filters working correctly."
+  - task: "GET /api/products/{id} single product"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Returns 404 when not found."
+      - working: true
+        agent: "testing"
+        comment: "✅ Valid product p-1 returns correct schema (id, name, price, etc). Invalid product 'doesnotexist' correctly returns 404. Working as expected."
+  - task: "GET /api/categories"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Seeded 8 categories."
+      - working: true
+        agent: "testing"
+        comment: "✅ Returns 8 categories with correct schema (id, name, image). All fields present and valid."
+  - task: "GET /api/testimonials"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Seeded 5 testimonials."
+      - working: true
+        agent: "testing"
+        comment: "✅ Returns 5 testimonials with correct schema (id, name, city, rating, quote, product). All fields present and valid."
+  - task: "POST /api/newsletter subscribe"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Idempotent on duplicate emails."
+      - working: true
+        agent: "testing"
+        comment: "✅ Valid email returns {ok: true}. Duplicate email submission is idempotent (returns {ok: true}). Invalid email correctly returns 422 validation error. Working as expected."
+  - task: "POST /api/orders create order"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Returns order_id and status='received'."
+      - working: true
+        agent: "testing"
+        comment: "✅ Order creation successful with realistic payload. Returns valid UUID order_id and status='received'. All fields properly stored."
+
+frontend:
+  - task: "Storefront UI (Home, Shop, Product Detail, Wishlist, Checkout, Order Confirmation)"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/pages/*"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "All pages built. Cart/wishlist in localStorage. Not requesting frontend testing yet."
+
+metadata:
+  created_by: "main_agent"
+  version: "1.0"
+  test_sequence: 1
+  run_ui: false
+
+test_plan:
+  current_focus: []
+  stuck_tasks: []
+  test_all: false
+  test_priority: "high_first"
+
+agent_communication:
+  - agent: "main"
+    message: "Backend implemented with 128 seeded products, 8 categories, 5 testimonials. Newsletter and orders endpoints ready. Please test all backend endpoints listed in test_plan with realistic payloads. Frontend wiring is complete and will be tested separately after user approval."
+  - agent: "testing"
+    message: "✅ ALL BACKEND TESTS PASSED (18/18). Tested: health check, products with all filters (category, tag, sort, price range, search, pagination), single product fetch, 404 handling, categories, testimonials, newsletter (including idempotency and validation), and order creation. All endpoints working correctly at https://luxury-home-shop-5.preview.emergentagent.com/api. Backend is production-ready."

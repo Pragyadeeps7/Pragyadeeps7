@@ -20,23 +20,23 @@ const HeroSlider = () => {
   };
 
   return (
-    <section className="relative w-full overflow-hidden" style={{ height: "min(78vh, 760px)" }}>
+    <section className="relative w-full overflow-hidden" style={{ height: "min(82vh, 760px)", minHeight: "520px" }}>
       {HERO_SLIDES.map((s, i) => (
         <div key={s.id} className="absolute inset-0 hero-slide"
           style={{ opacity: i === active ? 1 : 0, pointerEvents: i === active ? "auto" : "none" }}>
           <img src={s.image} alt={s.title} className="w-full h-full object-cover" loading={i === 0 ? "eager" : "lazy"} />
           <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(26,26,26,0.25) 0%, rgba(26,26,26,0.55) 100%)" }} />
           <div className="absolute inset-0 flex items-center">
-            <div className={`max-w-[1440px] w-full mx-auto px-8 lg:px-16 ${
+            <div className={`max-w-[1440px] w-full mx-auto px-6 md:px-8 lg:px-16 ${
               s.align === "left" ? "justify-start text-left" : s.align === "right" ? "justify-end text-right" : "justify-center text-center"
             } flex`}>
               <div className="max-w-[640px] fade-in" key={`${s.id}-${i === active}`}>
-                <p className="text-[12px] tracking-[0.4em] mb-5" style={{ color: "#E8D9B8" }}>{s.eyebrow}</p>
-                <h2 className="font-serif-display text-white text-[40px] md:text-[58px] lg:text-[68px] leading-[1.05] mb-6 whitespace-pre-line"
+                <p className="text-[10px] md:text-[12px] tracking-[0.4em] mb-4 md:mb-5" style={{ color: "#E8D9B8" }}>{s.eyebrow}</p>
+                <h2 className="font-serif-display text-white text-[32px] md:text-[52px] lg:text-[68px] leading-[1.05] mb-5 md:mb-6 whitespace-pre-line"
                   style={{ fontWeight: 500 }}>
                   {s.title}
                 </h2>
-                <p className="text-white/85 text-[15px] md:text-[16px] mb-9 italic font-body" style={{ maxWidth: 560 }}>
+                <p className="text-white/85 text-[13px] md:text-[16px] mb-7 md:mb-9 italic font-body" style={{ maxWidth: 560 }}>
                   {s.subtitle}
                 </p>
                 <div className={`flex flex-wrap gap-4 ${s.align === "center" ? "justify-center" : s.align === "right" ? "justify-end" : "justify-start"}`}>

@@ -28,22 +28,22 @@ const ProductCard = ({ product }) => {
             <span className="text-[10px] tracking-[0.2em] px-2.5 py-1 text-white" style={{ background: "#D4A574" }}>BESTSELLER</span>
           )}
         </div>
-        {/* Right floating actions */}
-        <div className="absolute top-3 right-3 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+        {/* Right floating actions - always visible on mobile, hover on desktop */}
+        <div className="absolute top-3 right-3 flex flex-col gap-2 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
           <button onClick={(e) => { e.preventDefault(); toggleWishlist(product.id); }}
             className={`w-9 h-9 flex items-center justify-center bg-white shadow-luxe transition-colors ${wished ? "text-[#B89778]" : "text-[#1A1A1A]"}`}
             aria-label="Wishlist">
             <Heart className={`w-4 h-4 ${wished ? "fill-current" : ""}`} />
           </button>
           <button onClick={(e) => { e.preventDefault(); setQuickView(product); }}
-            className="w-9 h-9 flex items-center justify-center bg-white shadow-luxe text-[#1A1A1A] hover:text-[#B89778] transition-colors"
+            className="hidden md:flex w-9 h-9 items-center justify-center bg-white shadow-luxe text-[#1A1A1A] hover:text-[#B89778] transition-colors"
             aria-label="Quick view">
             <Eye className="w-4 h-4" />
           </button>
         </div>
-        {/* Add to cart bottom */}
+        {/* Add to cart bottom - always visible on mobile */}
         <button onClick={() => addToCart(product, 1)}
-          className="absolute bottom-0 left-0 right-0 py-3 bg-[#1A1A1A] text-white text-[12px] tracking-[0.22em] font-medium translate-y-full group-hover:translate-y-0 transition-transform duration-300 flex items-center justify-center gap-2"
+          className="absolute bottom-0 left-0 right-0 py-2.5 md:py-3 bg-[#1A1A1A] text-white text-[11px] md:text-[12px] tracking-[0.22em] font-medium md:translate-y-full md:group-hover:translate-y-0 transition-transform duration-300 flex items-center justify-center gap-2"
           aria-label="Add to cart">
           <ShoppingBag className="w-4 h-4" /> ADD TO CART
         </button>

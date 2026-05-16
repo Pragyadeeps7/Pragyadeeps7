@@ -23,7 +23,7 @@ const Header = () => {
       style={{ background: "#FAFAF7", borderBottom: "1px solid #EFE7D6" }}
     >
       <div className="max-w-[1440px] mx-auto px-6 lg:px-10">
-        <div className="flex items-center justify-between h-20">
+        <div className="flex items-center justify-between h-16 md:h-20">
           <div className="flex items-center gap-6 lg:gap-8 flex-1">
             <button className="lg:hidden" onClick={() => setMobileOpen(true)} aria-label="Menu">
               <Menu className="w-6 h-6" />
@@ -39,13 +39,13 @@ const Header = () => {
             </nav>
           </div>
 
-          <Link to="/" className="flex-shrink-0 mx-4">
-            <h1 className="font-serif-display text-[26px] md:text-[30px] tracking-[0.32em] font-medium" style={{ color: "#1A1A1A" }}>
+          <Link to="/" className="flex-shrink-0 mx-2 md:mx-4">
+            <h1 className="font-serif-display text-[20px] md:text-[28px] lg:text-[30px] tracking-[0.24em] md:tracking-[0.32em] font-medium" style={{ color: "#1A1A1A" }}>
               SAUKRITI
             </h1>
           </Link>
 
-          <div className="flex items-center gap-6 flex-1 justify-end">
+          <div className="flex items-center gap-3 md:gap-6 flex-1 justify-end">
             <nav className="hidden lg:flex items-center gap-7">
               {NAV_RIGHT.map(l => (
                 <Link key={l.label} to={l.path}
