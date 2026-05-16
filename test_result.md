@@ -196,7 +196,7 @@ backend:
 frontend:
   - task: "Storefront UI (Home, Shop, Product Detail, Wishlist, Checkout, Order Confirmation)"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/frontend/src/pages/*"
     stuck_count: 0
     priority: "high"
@@ -205,12 +205,15 @@ frontend:
       - working: "NA"
         agent: "main"
         comment: "All pages built. Cart/wishlist in localStorage. Not requesting frontend testing yet."
+      - working: true
+        agent: "testing"
+        comment: "✅ COMPREHENSIVE FRONTEND TESTING COMPLETED (12/12 critical tests passed). Tested at desktop (1440x900) and mobile (390x844) viewports. All core functionality working: (1) Home page loads with hero slider, 8 category grid, Featured/New Arrivals/Best Sellers product grids with ₹ prices, testimonials, footer. (2) Header navigation works - Shop All, category filters (Dining/Kitchen/Decor/Bath), subnav (NEW COLLECTION/FESTIVE TABLE/GIFT EDIT/SALE). (3) Shop page filters & sort working - 128 products initially, category filter (Decor→40 products), tag filter (new→48 products), sort (Low to High), price range slider (→13 products). (4) Product detail page functional - breadcrumb, image, title, price (₹1,170), rating stars, 2 color swatches, S/M/L size buttons, quantity selector with +/- controls, Add to Cart button. (5) Cart drawer operational - opens after adding item, shows product with image/name/price, quantity controls (+/-), Remove button, Proceed to Checkout button, cart badge shows count. (6) Quick view modal working - eye icon appears on hover (desktop), modal opens with product details and Add to Cart button, closes with X. (7) Wishlist functional - heart icon toggles, wishlist page loads and displays favorited products. (8) Search working - search icon opens dialog, typing 'vase' returns ~6 results with debounce, clicking result navigates to product detail, popular search chips (Candle) populate results, closes with X. (9) Checkout flow complete - order summary shows item/subtotal/shipping/total, validation triggers on empty form submission, filling required fields (Name, Email, Phone, Street Address) and clicking Place Order navigates to /order-confirmed/[uuid], cart clears after order. (10) Newsletter working - invalid email 'abc' shows error toast, valid email 'guest_test_001@example.com' shows success toast 'Welcome to the Saukriti circle'. (11) Mobile responsive - hamburger menu appears and opens drawer with nav links, hero readable, product grid shows 2 columns on mobile, product detail page accessible (image/title/Add to Cart visible without horizontal scroll). (12) Visual integrity maintained - no broken images, prices display ₹ symbol (36+ instances), NEW/-22%/BESTSELLER badges render on products. Cart and wishlist persist in localStorage. Guest checkout only (no auth). All routes working: /, /shop, /product/:id, /checkout, /order-confirmed/:id, /wishlist. Using shadcn/ui components throughout."
 
 metadata:
   created_by: "main_agent"
   version: "1.0"
-  test_sequence: 1
-  run_ui: false
+  test_sequence: 2
+  run_ui: true
 
 test_plan:
   current_focus: []
@@ -223,3 +226,5 @@ agent_communication:
     message: "Backend implemented with 128 seeded products, 8 categories, 5 testimonials. Newsletter and orders endpoints ready. Please test all backend endpoints listed in test_plan with realistic payloads. Frontend wiring is complete and will be tested separately after user approval."
   - agent: "testing"
     message: "✅ ALL BACKEND TESTS PASSED (18/18). Tested: health check, products with all filters (category, tag, sort, price range, search, pagination), single product fetch, 404 handling, categories, testimonials, newsletter (including idempotency and validation), and order creation. All endpoints working correctly at https://luxury-home-shop-5.preview.emergentagent.com/api. Backend is production-ready."
+  - agent: "testing"
+    message: "✅ ALL FRONTEND TESTS PASSED (12/12 critical scenarios). Comprehensive testing completed covering: home page load, navigation, shop filters & sort, product detail flow, cart drawer, quick view modal, wishlist, search, checkout flow (including order placement and cart clearing), newsletter, mobile responsiveness, and visual integrity. All routes functional, cart/wishlist persist in localStorage, prices display ₹ symbol, badges render correctly, no broken images. Desktop (1440x900) and mobile (390x844) viewports tested. Application is production-ready."
