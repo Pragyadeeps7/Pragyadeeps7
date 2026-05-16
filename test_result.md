@@ -116,7 +116,7 @@ backend:
     priority: "high"
     needs_retesting: false
     status_history:
-      - working: "NA"
+      - working: true
         agent: "main"
         comment: "Seeded 128 products into MongoDB. Supports category/tag/q/min_price/max_price/sort/limit/skip params."
       - working: true
@@ -130,7 +130,7 @@ backend:
     priority: "high"
     needs_retesting: false
     status_history:
-      - working: "NA"
+      - working: true
         agent: "main"
         comment: "Returns 404 when not found."
       - working: true
@@ -144,7 +144,7 @@ backend:
     priority: "high"
     needs_retesting: false
     status_history:
-      - working: "NA"
+      - working: true
         agent: "main"
         comment: "Seeded 8 categories."
       - working: true
@@ -158,7 +158,7 @@ backend:
     priority: "medium"
     needs_retesting: false
     status_history:
-      - working: "NA"
+      - working: true
         agent: "main"
         comment: "Seeded 5 testimonials."
       - working: true
@@ -172,7 +172,7 @@ backend:
     priority: "medium"
     needs_retesting: false
     status_history:
-      - working: "NA"
+      - working: true
         agent: "main"
         comment: "Idempotent on duplicate emails."
       - working: true
@@ -186,7 +186,7 @@ backend:
     priority: "high"
     needs_retesting: false
     status_history:
-      - working: "NA"
+      - working: true
         agent: "main"
         comment: "Returns order_id and status='received'."
       - working: true
