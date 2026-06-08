@@ -232,3 +232,39 @@ agent_communication:
 
   - agent: "testing"
     message: "Backend (18/18) and Frontend (12/12) all green. Cart, wishlist, search, filters, checkout, newsletter, responsive layouts verified."
+
+
+backend_additions:
+  - task: "POST /api/auth/session (Emergent Google session exchange)"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    needs_retesting: true
+  - task: "GET /api/auth/me, POST /api/auth/logout"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    needs_retesting: true
+  - task: "GET /api/orders/me (user's order history)"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    needs_retesting: true
+  - task: "POST /api/reviews, GET /api/products/{id}/reviews"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    needs_retesting: true
+  - task: "Admin endpoints (stats/orders/products CRUD/reviews moderation/subscribers)"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    needs_retesting: true
+
+test_plan_v2:
+  current_focus:
+    - "Auth session exchange + /auth/me + /auth/logout (use bearer token fallback for tests)"
+    - "Reviews flow (POST requires auth, GET public)"
+    - "Orders /me filtering by user_id and email"
+    - "All admin endpoints require is_admin=true"
+  test_priority: high_first

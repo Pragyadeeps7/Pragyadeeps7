@@ -8,6 +8,7 @@ import { formatPrice } from "../mock";
 import { useCart } from "../context/CartContext";
 import { Star, Heart, Minus, Plus, ShoppingBag, Truck, RefreshCw, ShieldCheck, ChevronRight, Loader2 } from "lucide-react";
 import { getProduct, getProducts } from "../api/client";
+import ProductReviews from "../components/ProductReviews";
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -167,7 +168,7 @@ const ProductDetail = () => {
                 </ul>
               )}
               {tab === "shipping" && <p>Dispatched in 1-3 working days. Free shipping on orders above 2,000.</p>}
-              {tab === "reviews" && <p>{product.reviews} verified reviews  Average rating {product.rating}/5.</p>}
+              {tab === "reviews" && <ProductReviews productId={product.id} />}
             </div>
           </div>
         </div>

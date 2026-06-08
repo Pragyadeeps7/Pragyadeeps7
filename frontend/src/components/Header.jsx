@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Search, User, Heart, ShoppingBag, Menu, X } from "lucide-react";
+import { Search, User, Heart, ShoppingBag, Menu, X, LogIn, Shield, Package, LogOut } from "lucide-react";
 import { NAV_LINKS, NAV_RIGHT, SUBNAV } from "../mock";
 import { useCart } from "../context/CartContext";
+import { useAuth, startLogin } from "../context/AuthContext";
 
 const Header = () => {
   const { cartCount, setCartOpen, setSearchOpen, wishlist } = useCart();
+  const { user, logout } = useAuth();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [accountOpen, setAccountOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -59,9 +62,39 @@ const Header = () => {
               <button onClick={() => setSearchOpen(true)} aria-label="Search" className="hover:text-[#B89778] transition-colors">
                 <Search className="w-[18px] h-[18px]" />
               </button>
-              <button onClick={() => navigate("/account")} aria-label="Account" className="hidden sm:block hover:text-[#B89778] transition-colors">
-                <User className="w-[18px] h-[18px]" />
-              </button>
+              <div className="relative hidden sm:block">
+                <button onClick={() => user ? setAccountOpen(o => !o) : startLogin()}
+                  aria-label="Account" className="hover:text-[#B89778] transition-colors flex items-center">
+                  {user?.picture ? (
+                    <img src={user.picture} alt="" className="w-7 h-7 rounded-full object-cover ring-1 ring-[#D4A574]" />
+                  ) : user ? (
+                    <div className="w-7 h-7 rounded-full flex items-center justify-center text-white text-[11px]" style={{ background: "#D4A574" }}>{user.name?.[0]?.toUpperCase()}</div>
+                  ) : (
+                    <User className="w-[18px] h-[18px]" />
+                  )}
+                </button>
+                {user && accountOpen && (
+                  <div className="absolute right-0 top-12 z-50 w-56 bg-white shadow-luxe border" style={{ borderColor: "#EFE7D6" }}
+                    onMouseLeave={() => setAccountOpen(false)}>
+                    <div className="px-4 py-3 border-b" style={{ borderColor: "#EFE7D6" }}>
+                      <p className="text-[13px] font-medium truncate">{user.name}</p>
+                      <p className="text-[11px] truncate" style={{ color: "#8A8A8A" }}>{user.email}</p>
+                    </div>
+                    <Link to="/account" onClick={() => setAccountOpen(false)} className="flex items-center gap-2 px-4 py-2.5 text-[13px] hover:bg-[#F5EFE2]">
+                      <Package className="w-4 h-4" /> My Account
+                    </Link>
+                    {user.is_admin && (
+                      <Link to="/admin" onClick={() => setAccountOpen(false)} className="flex items-center gap-2 px-4 py-2.5 text-[13px] hover:bg-[#F5EFE2]" style={{ color: "#B89778" }}>
+                        <Shield className="w-4 h-4" /> Admin Panel
+                      </Link>
+                    )}
+                    <button onClick={() => { logout(); setAccountOpen(false); navigate("/"); }}
+                      className="w-full flex items-center gap-2 px-4 py-2.5 text-[13px] hover:bg-[#F5EFE2] text-left border-t" style={{ borderColor: "#EFE7D6" }}>
+                      <LogOut className="w-4 h-4" /> Logout
+                    </button>
+                  </div>
+                )}
+              </div>
               <button onClick={() => navigate("/wishlist")} aria-label="Wishlist" className="relative hover:text-[#B89778] transition-colors hidden sm:block">
                 <Heart className="w-[18px] h-[18px]" />
                 {wishlist.length > 0 && (
@@ -108,6 +141,20 @@ const Header = () => {
                   {l.label}
                 </Link>
               ))}
+              <div className="h-px bg-[#EFE7D6] my-3" />
+              {user ? (
+                <>
+                  <Link to="/account" onClick={() => setMobileOpen(false)} className="text-[13px] tracking-[0.14em] uppercase font-body">My Account</Link>
+                  {user.is_admin && (
+                    <Link to="/admin" onClick={() => setMobileOpen(false)} className="text-[13px] tracking-[0.14em] uppercase font-body" style={{ color: "#B89778" }}>Admin Panel</Link>
+                  )}
+                  <button onClick={() => { logout(); setMobileOpen(false); }} className="text-[13px] tracking-[0.14em] uppercase font-body text-left">Logout</button>
+                </>
+              ) : (
+                <button onClick={() => { setMobileOpen(false); startLogin(); }} className="inline-flex items-center gap-2 text-[13px] tracking-[0.14em] uppercase font-body">
+                  <LogIn className="w-4 h-4" /> Sign in
+                </button>
+              )}
               <div className="h-px bg-[#EFE7D6] my-3" />
               {SUBNAV.map(s => (
                 <Link key={s.label} to={s.path} onClick={() => setMobileOpen(false)}
